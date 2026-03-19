@@ -1,25 +1,25 @@
 {
-  "name": "cliry",
+  "name": "toolry",
   "version": "0.1.0",
   "description": "A wrapper library around citty and @clack/prompts to create a beautiful devtool cli with no boilerplate.",
-  "homepage": "https://github.com/web-dev-sam/cliry#readme",
+  "homepage": "https://github.com/web-dev-sam/toolry#readme",
   "bugs": {
-    "url": "https://github.com/web-dev-sam/cliry/issues"
+    "url": "https://github.com/web-dev-sam/toolry/issues"
   },
   "license": "MIT",
   "author": "Samuel Braun <sam@webry.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/web-dev-sam/cliry.git"
+    "url": "git+https://github.com/web-dev-sam/toolry.git"
+  },
+  "bin": {
+    "toolry": "./bin/tools.ts"
   },
   "files": [
     "src",
     "bin"
   ],
   "type": "module",
-  "bin": {
-    "cliry": "./bin/tools.ts"
-  },
   "exports": {
     ".": "./dist/index.mjs",
     "./package.json": "./package.json"
@@ -35,6 +35,12 @@
     "prepublishOnly": "vp run build",
     "prepare": "vp config"
   },
+  "dependencies": {
+    "@clack/prompts": "^1.1.0",
+    "citty": "^0.2.1",
+    "colorette": "^2.0.20",
+    "tsx": "^4.21.0"
+  },
   "devDependencies": {
     "@types/node": "^25.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260316.1",
@@ -48,11 +54,5 @@
       "vite": "npm:@voidzero-dev/vite-plus-core@latest",
       "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
     }
-  },
-  "dependencies": {
-    "@clack/prompts": "^1.1.0",
-    "citty": "^0.2.1",
-    "colorette": "^2.0.20",
-    "tsx": "^4.21.0"
   }
 }
