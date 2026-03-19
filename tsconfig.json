@@ -23,6 +23,7 @@
   "include": [
     "src",
     "plugins/laravel.ts",
-    "plugins/docker.ts"
+    "plugins/docker.ts",
+    "bin/tools.ts"
   ]
 }
