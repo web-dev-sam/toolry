@@ -4,12 +4,22 @@ export default defineConfig({
   staged: {
     "*": "vp check --fix",
   },
-  pack: {
-    dts: {
-      tsgo: true,
+  pack: [
+    {
+      entry: { index: "src/index.ts" },
+      dts: { tsgo: true },
+      exports: true,
+      format: ["esm"],
+      outDir: "dist",
     },
-    exports: true,
-  },
+    {
+      entry: { cli: "bin/index.ts" },
+      dts: false,
+      format: ["esm"],
+      outDir: "dist",
+      banner: "#!/usr/bin/env node",
+    },
+  ],
   lint: {
     options: {
       typeAware: true,

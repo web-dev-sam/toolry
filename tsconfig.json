@@ -1,16 +1,12 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "es2023"
-    ],
+    "lib": ["es2023"],
     "moduleDetection": "force",
     "module": "preserve",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "strict": true,
     "noUnusedLocals": true,
     "declaration": true,
@@ -20,10 +16,5 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true
   },
-  "include": [
-    "src",
-    "plugins/laravel.ts",
-    "plugins/docker.ts",
-    "bin/tools.ts"
-  ]
+  "include": ["src", "examples/laravel.ts", "examples/docker.ts", "bin/index.ts"]
 }

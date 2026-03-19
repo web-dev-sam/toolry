@@ -1,6 +1,6 @@
 {
   "name": "toolry",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "description": "A wrapper library around citty and @clack/prompts to create a beautiful devtool cli with no boilerplate.",
   "homepage": "https://github.com/web-dev-sam/toolry#readme",
   "bugs": {
@@ -13,10 +13,10 @@
     "url": "git+https://github.com/web-dev-sam/toolry.git"
   },
   "bin": {
-    "toolry": "./bin/tools.ts"
+    "toolry": "./dist/cli.mjs"
   },
   "files": [
-    "src",
+    "dist",
     "bin"
   ],
   "type": "module",
@@ -38,13 +38,13 @@
   "dependencies": {
     "@clack/prompts": "^1.1.0",
     "citty": "^0.2.1",
-    "colorette": "^2.0.20",
-    "tsx": "^4.21.0"
+    "colorette": "^2.0.20"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260316.1",
     "bumpp": "^11.0.1",
+    "tsdown": "^0.21.4",
     "typescript": "^5.9.3",
     "vite-plus": "^0.1.11"
   },
