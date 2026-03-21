@@ -28,28 +28,28 @@ A plugin is any `.ts` or `.js` file that exports one or more tools via `defineTo
 
 ```ts
 // ~/dotfiles/tools/plugins/laravel.ts
-import { defineTools } from '../src/index.js'
+import { defineTools } from "../src/index.js";
 
 export default defineTools(
   {
-    name: 'serve',
-    description: 'Start the dev server',
-    category: 'Laravel',
+    name: "serve",
+    description: "Start the dev server",
+    category: "Laravel",
     args: {
-      port: { type: 'string', description: 'Port', default: '8000' },
+      port: { type: "string", description: "Port", default: "8000" },
     },
     run: ({ port }) => `php artisan serve --port=${port}`,
   },
   {
-    name: 'migrate',
-    description: 'Run migrations',
-    category: 'Laravel',
+    name: "migrate",
+    description: "Run migrations",
+    category: "Laravel",
     args: {
-      fresh: { type: 'boolean', description: 'Drop all tables first?' },
+      fresh: { type: "boolean", description: "Drop all tables first?" },
     },
-    run: ({ fresh }) => `php artisan migrate${fresh ? ':fresh' : ''}`,
+    run: ({ fresh }) => `php artisan migrate${fresh ? ":fresh" : ""}`,
   },
-)
+);
 ```
 
 That's it. Full autocomplete on `args` and `run`. Under 20 lines.
@@ -63,24 +63,24 @@ That's it. Full autocomplete on `args` and `run`. Under 20 lines.
 Define a single tool. The `run` function receives fully-typed args.
 
 ```ts
-import { defineTool } from 'pretty-tools'
+import { defineTool } from "pretty-tools";
 
 export default defineTool({
-  name: 'my-tool',           // shown in the menu
-  description: 'Does stuff', // shown as hint
-  category: 'My Category',   // groups tools in the menu
+  name: "my-tool", // shown in the menu
+  description: "Does stuff", // shown as hint
+  category: "My Category", // groups tools in the menu
 
   args: {
     // --- arg types ---
-    myString:  { type: 'string',  description: '...',  default: 'hello' },
-    myBool:    { type: 'boolean', description: '...',  default: false   },
-    myNumber:  { type: 'number',  description: '...'                    },
+    myString: { type: "string", description: "...", default: "hello" },
+    myBool: { type: "boolean", description: "...", default: false },
+    myNumber: { type: "number", description: "..." },
 
     // string with a select dropdown
-    mySelect:  { type: 'string',  description: '...', options: ['a', 'b', 'c'] },
+    mySelect: { type: "string", description: "...", options: ["a", "b", "c"] },
 
     // required field (validated before running)
-    myRequired: { type: 'string', description: '...', required: true },
+    myRequired: { type: "string", description: "...", required: true },
   },
 
   // Return a shell command string → it gets executed
@@ -88,11 +88,11 @@ export default defineTool({
 
   // Or handle it yourself (async ok)
   async run({ myString }) {
-    await doSomething(myString)
+    await doSomething(myString);
     // optionally still return a shell command at the end
-    return `open https://example.com/${myString}`
+    return `open https://example.com/${myString}`;
   },
-})
+});
 ```
 
 ### `defineTools(...defs)`
@@ -100,7 +100,7 @@ export default defineTool({
 Sugar for exporting multiple tools from one file.
 
 ```ts
-export default defineTools(toolA, toolB, toolC)
+export default defineTools(toolA, toolB, toolC);
 ```
 
 ### Named exports also work
@@ -114,14 +114,14 @@ export const down = defineTool({ name: 'docker:down', ... })
 
 ## Arg types reference
 
-| Field         | Type                          | Description                                      |
-|---------------|-------------------------------|--------------------------------------------------|
-| `type`        | `'string' \| 'boolean' \| 'number'` | Determines the prompt style                |
-| `description` | `string`                      | Shown as the prompt question                     |
-| `default`     | matches `type`                | Pre-filled value, used if user hits enter        |
-| `required`    | `boolean`                     | Validates that the field is not empty            |
-| `options`     | `string[]`                    | Renders a `select` dropdown instead of text      |
-| `placeholder` | `string`                      | Greyed-out hint inside text prompts              |
+| Field         | Type                                | Description                                 |
+| ------------- | ----------------------------------- | ------------------------------------------- |
+| `type`        | `'string' \| 'boolean' \| 'number'` | Determines the prompt style                 |
+| `description` | `string`                            | Shown as the prompt question                |
+| `default`     | matches `type`                      | Pre-filled value, used if user hits enter   |
+| `required`    | `boolean`                           | Validates that the field is not empty       |
+| `options`     | `string[]`                          | Renders a `select` dropdown instead of text |
+| `placeholder` | `string`                            | Greyed-out hint inside text prompts         |
 
 ---
 

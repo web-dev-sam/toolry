@@ -1,4 +1,4 @@
-import type { ArgsDef, ToolDef } from './types.js'
+import type { ArgsDef, ToolDef } from "./types.js";
 
 /**
  * Define a tool. This is the only thing plugin authors need to call.
@@ -15,12 +15,12 @@ import type { ArgsDef, ToolDef } from './types.js'
  * })
  */
 export function defineTool<T extends ArgsDef>(def: ToolDef<T>): ToolDef<T> {
-  return def
+  return def;
 }
 
 /**
  * Define multiple tools at once (useful for one plugin file per category).
  */
 export function defineTools<T extends ArgsDef>(...defs: ToolDef<T>[]): ToolDef<T>[] {
-  return defs
+  return defs;
 }

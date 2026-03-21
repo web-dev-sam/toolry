@@ -1,6 +1,6 @@
 {
   "name": "toolry",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "A wrapper library around citty and @clack/prompts to create a beautiful devtool cli with no boilerplate.",
   "homepage": "https://github.com/web-dev-sam/toolry#readme",
   "bugs": {
@@ -46,7 +46,8 @@
     "bumpp": "^11.0.1",
     "tsdown": "^0.21.4",
     "typescript": "^5.9.3",
-    "vite-plus": "^0.1.11"
+    "vite-plus": "^0.1.11",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@^0.1.13"
   },
   "packageManager": "pnpm@10.32.1",
   "pnpm": {

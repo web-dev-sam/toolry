@@ -1,4 +1,19 @@
-import { select, text, confirm, path, isCancel, cancel, group, log } from "@clack/prompts";
+import {
+  select,
+  text,
+  confirm,
+  path,
+  password,
+  multiselect,
+  autocomplete,
+  autocompleteMultiselect,
+  selectKey,
+  groupMultiselect,
+  isCancel,
+  cancel,
+  group,
+  log,
+} from "@clack/prompts";
 import { bold, gray } from "colorette";
 import type { ArgDef, ArgsDef, ToolDef } from "./types.js";
 
@@ -139,11 +154,20 @@ export async function confirmRun(command: string): Promise<"run" | "back" | "abo
 
 async function promptForArg(key: string, def: ArgDef): Promise<unknown> {
   const label = key.replace(/([A-Z])/g, " $1").toLowerCase();
+  const mapOptions = (opts: ReturnType<NonNullable<ArgDef["options"]>>) =>
+    opts.map((o) => ({ value: o.value, label: o.label ?? o.value, hint: o.description }));
 
-  if (def.type === "boolean") {
+  if (def.type === "confirm") {
     return confirm({
       message: def.description,
       initialValue: (def.default as boolean) ?? false,
+    });
+  }
+
+  if (def.type === "password") {
+    return password({
+      message: def.description,
+      validate: def.required ? (v) => (!v ? `${label} is required` : undefined) : undefined,
     });
   }
 
@@ -157,11 +181,62 @@ async function promptForArg(key: string, def: ArgDef): Promise<unknown> {
     });
   }
 
-  if (def.options) {
+  if (def.type === "select") {
+    const options = mapOptions(def.options?.() ?? []);
     return select<string>({
       message: def.description,
-      options: def.options.map((o) => ({ value: o, label: o })),
-      initialValue: (def.default as string) ?? def.options[0],
+      options,
+      initialValue: (def.default as string) ?? options[0]?.value,
+    });
+  }
+
+  if (def.type === "multiselect") {
+    return multiselect<string>({
+      message: def.description,
+      options: mapOptions(def.options?.() ?? []),
+      initialValues: def.default as string[] | undefined,
+      required: def.required,
+    });
+  }
+
+  if (def.type === "autocomplete") {
+    return autocomplete({
+      message: def.description,
+      options: mapOptions(def.options?.() ?? []),
+      initialValue: def.default as string | undefined,
+      validate: def.required ? (v) => (!v ? `${label} is required` : undefined) : undefined,
+    });
+  }
+
+  if (def.type === "autocompleteMultiselect") {
+    return autocompleteMultiselect<string>({
+      message: def.description,
+      options: mapOptions(def.options?.() ?? []),
+      initialValues: def.default as string[] | undefined,
+      required: def.required,
+    });
+  }
+
+  if (def.type === "selectKey") {
+    return selectKey<string>({
+      message: def.description,
+      options: mapOptions(def.options?.() ?? []),
+    });
+  }
+
+  if (def.type === "groupMultiselect") {
+    const rawGroups = def.groups?.() ?? {};
+    const options = Object.fromEntries(
+      Object.entries(rawGroups).map(([groupName, items]) => [
+        groupName,
+        items.map((o) => ({ value: o.value, label: o.label ?? o.value, hint: o.description })),
+      ]),
+    );
+    return groupMultiselect<string>({
+      message: def.description,
+      options,
+      initialValues: def.default as string[] | undefined,
+      required: def.required,
     });
   }
 
