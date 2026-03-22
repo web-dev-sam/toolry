@@ -77,8 +77,9 @@ export async function pickTool(allTools: ToolDef[]): Promise<ToolDef | null> {
           : "Which category?"
         : `${breadcrumb.join(" › ")} · ${isLeaf ? "Which tool?" : "Which subcategory?"}`;
 
+    const firstNonBack = options.find((o) => o.value !== "__back__")?.value;
     process.stdout.write("\x1b[s");
-    const chosen = await select<string>({ message, options });
+    const chosen = await select<string>({ message, options, initialValue: firstNonBack });
 
     if (isCancel(chosen)) {
       cancel("Cancelled.");
@@ -120,14 +121,6 @@ export async function collectArgs(tool: ToolDef): Promise<Record<string, unknown
       process.exit(0);
     },
   });
-
-  // Fill in defaults for any skipped optional fields
-  for (const [key, def] of Object.entries(argsDef)) {
-    const d = def as ArgDef;
-    if ((result[key] === "" || result[key] === undefined) && d.default !== undefined) {
-      result[key] = d.default;
-    }
-  }
 
   return result as Record<string, unknown>;
 }

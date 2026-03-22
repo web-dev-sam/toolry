@@ -21,6 +21,9 @@ importers:
       colorette:
         specifier: ^2.0.20
         version: 2.0.20
+      toolry:
+        specifier: 'link:'
+        version: 'link:'
     devDependencies:
       '@types/node':
         specifier: ^25.5.0

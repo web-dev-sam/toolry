@@ -1,8 +1,8 @@
 {
   "name": "toolry",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A wrapper library around citty and @clack/prompts to create a beautiful devtool cli with no boilerplate.",
-  "homepage": "https://github.com/web-dev-sam/toolry#readme",
+  "homepage": "https://toolry.webry.com/",
   "bugs": {
     "url": "https://github.com/web-dev-sam/toolry/issues"
   },
@@ -38,7 +38,8 @@
   "dependencies": {
     "@clack/prompts": "^1.1.0",
     "citty": "^0.2.1",
-    "colorette": "^2.0.20"
+    "colorette": "^2.0.20",
+    "toolry": "link:"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",

@@ -13,7 +13,7 @@ export async function loadPlugins(paths: string[]): Promise<ToolDef[]> {
     try {
       mod = await import(url);
     } catch (e) {
-      console.error(`[pretty-tools] Failed to load plugin: ${raw}`);
+      console.error(`[toolry] Failed to load plugin: ${raw}`);
       console.error(e);
       continue;
     }

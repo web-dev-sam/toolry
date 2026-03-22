@@ -10,6 +10,7 @@ export default defineConfig({
       dts: { tsgo: true },
       exports: true,
       format: ["esm"],
+      minify: true,
       outDir: "dist",
     },
     {
@@ -17,6 +18,7 @@ export default defineConfig({
       dts: false,
       format: ["esm"],
       outDir: "dist",
+      minify: true,
       banner: "#!/usr/bin/env node",
     },
   ],

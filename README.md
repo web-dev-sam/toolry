@@ -8,7 +8,7 @@ A beautiful, plugin-based CLI toolkit. Define commands in small TypeScript plugi
 pnpm i -g toolry
 
 # Add a shell alias (~/.bashrc or similar)
-alias tools="pnpx toolry ~/.toolry/*.js" # If using ts you need tsx or bun or a new enough node version that can directly run ts files
+alias tools="pnpx toolry ~/.toolry/*.ts" # If using ts you need tsx or bun or a new enough node version (24+) that can directly run ts files
 ```
 
 Now `tools` anywhere gives you a beautiful interactive menu.
@@ -20,7 +20,7 @@ Now `tools` anywhere gives you a beautiful interactive menu.
 A plugin is any `.ts` or `.js` file that exports one or more tools via `defineTool` / `defineTools`.
 
 ```ts
-// ~/dotfiles/tools/plugins/laravel.ts
+// ~/.toolry/laravel.ts
 import { defineTools } from "toolry";
 
 export default defineTools(

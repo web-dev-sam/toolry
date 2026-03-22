@@ -57,5 +57,5 @@ export interface ToolDef<T extends ArgsDef = ArgsDef> {
 export interface ToolsConfig {
   name?: string;
   description?: string;
-  version?: string;
+  configuredPaths?: string[];
 }

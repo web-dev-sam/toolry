@@ -1,4 +1,4 @@
-import { intro, outro, spinner, log, cancel } from "@clack/prompts";
+import { outro, spinner, log, cancel } from "@clack/prompts";
 import { bold, cyan, gray, green } from "colorette";
 import { loadPlugins } from "./loader.js";
 import { pickTool, collectArgs, confirmRun } from "./prompts.js";
@@ -6,13 +6,22 @@ import { exec } from "./exec.js";
 import type { ToolsConfig } from "./types.js";
 
 export async function run(pluginPaths: string[], config: ToolsConfig = {}) {
-  const { name = "toolry", description = "Your developer toolkit", version } = config;
+  const { name = "toolry", description = "Your developer toolkit", configuredPaths } = config;
+  const displayName = name.charAt(0).toUpperCase() + name.slice(1);
 
-  intro(bold(cyan(`${name} `)) + gray(version ? ` v${version} - ` : " - ") + gray(description));
+  console.log();
+  console.log(bold(cyan(`  ${displayName}`)));
+  console.log(gray(`  ${description}`));
+  console.log();
 
   if (pluginPaths.length === 0) {
-    log.warn("No plugin files provided.");
-    log.info(`Usage: ${name} ./my-plugin.ts ./other-plugin.ts`);
+    if (configuredPaths?.length) {
+      log.warn(`No tools found. Add .ts files to: ${configuredPaths.join(", ")}`);
+      log.info(`Or pass plugin files directly: ${name} ./my-plugin.ts`);
+    } else {
+      log.warn("No plugin files provided.");
+      log.info(`Pass plugin files directly: ${name} ./my-plugin.ts`);
+    }
     outro("Nothing to do.");
     return;
   }
