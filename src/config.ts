@@ -1,11 +1,13 @@
 import { confirm } from "@clack/prompts";
-import { bold, cyan, gray } from "colorette";
+import { bold, cyan, gray, green, red } from "colorette";
 import { homedir, platform } from "os";
 import { resolve, join } from "path";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { parseModule, generateCode } from "magicast";
 import { glob } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
+import { catalog } from "./tools-catalog.js";
 
 export interface ToolryConfig {
   paths: string[];
@@ -103,6 +105,56 @@ export async function runSetup(): Promise<void> {
   console.log();
   console.log(gray(`  Add more .ts tool files to ${bold("~/.toolry/")} and run:`));
   console.log(gray(`    npx toolry`));
+  console.log();
+}
+
+export function addTool(toolPath: string): void {
+  const entry = catalog[toolPath];
+
+  if (!entry) {
+    const available = Object.keys(catalog)
+      .map((k) => `    ${bold(k)}  ${gray(catalog[k].description)}`)
+      .join("\n");
+    console.log();
+    console.log(`  ${red(`Unknown tool: ${bold(toolPath)}`)}`);
+    console.log();
+    console.log(`  Available tools:`);
+    console.log(available);
+    console.log();
+    return;
+  }
+
+  const [fileName] = toolPath.split("/");
+  const toolryDir = join(homedir(), ".toolry");
+  const filePath = join(toolryDir, `${fileName}.ts`);
+
+  mkdirSync(toolryDir, { recursive: true });
+
+  if (!existsSync(filePath)) {
+    writeFileSync(filePath, `import { defineTool } from 'toolry'\n\n${entry.code}\n`, "utf-8");
+  } else {
+    const existing = readFileSync(filePath, "utf-8");
+    if (existing.includes(`export const ${entry.exportName}`)) {
+      console.log();
+      console.log(`  ${bold(entry.exportName)} already exists in ${cyan(filePath)}`);
+      console.log();
+      return;
+    }
+
+    // Use magicast to reliably add the import if it's missing
+    const mod = parseModule(existing);
+    const alreadyImported = mod.imports.$items.some(
+      (i) => i.imported === "defineTool" && i.from === "toolry",
+    );
+    if (!alreadyImported) {
+      mod.imports.$prepend({ imported: "defineTool", from: "toolry" });
+    }
+    const { code: updatedSource } = generateCode(mod);
+    writeFileSync(filePath, `${updatedSource}\n${entry.code}\n`, "utf-8");
+  }
+
+  console.log();
+  console.log(`  ${green("✔")} Added ${bold(entry.exportName)} → ${cyan(filePath)}`);
   console.log();
 }
 
