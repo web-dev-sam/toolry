@@ -147,3 +147,4 @@ export default defineTools(
 2. Verify examples against actual exported APIs from `src/index.ts`.
 3. Keep docs aligned with the current runtime rather than aspirational behavior.
 4. If behavior is surprising, document the current behavior first, then change code separately if requested.
+5. If you change how tools are added (the catalog format, `tools.ts` shape, `addPath` convention, or how `addTool` injects code), update `CONTRIBUTING.md` in the same task.
