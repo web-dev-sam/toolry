@@ -10,8 +10,7 @@ _A beautiful, plugin-based CLI toolkit. 🧰_
 &nbsp;
 
 ## Why does this exist?
-1. Useful for remembering complex commands that aren't used frequently and have complex syntax.
-2. Define commands in small TypeScript plugin files, wire them together with a shell alias, and get a fully interactive, categorised CLI with zero boilerplate.
+For remembering complex commands that aren't used frequently and have complex syntax.
 
 ## How to set it up
 
